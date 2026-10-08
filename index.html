@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PregnaCare AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <strong id="hospitalName">PregnaCare AI</strong>
+  <button id="resetBtn" class="link" hidden>Reset data</button>
+</header>
+
+<main>
+  <!-- 1. Welcome -->
+  <section id="welcome" class="screen active">
+    <div class="hero" aria-hidden="true">🌸👶🌸</div>
+    <h1>Care for you and your baby, week by week.</h1>
+    <p>Provided by <span class="hosp"></span>. Get weekly information, daily care tips, appointment reminders, relaxing activities, after-birth care and answers to common questions.</p>
+    <button class="primary" data-go="details">Get started</button>
+    <p class="note">This app gives general information only. It does not replace your doctor or midwife.</p>
+  </section>
+
+  <!-- 2. Patient details -->
+  <section id="details" class="screen">
+    <h2>Your details</h2>
+    <form id="detailsForm">
+      <label>Full name <input id="name" required></label>
+      <label>Age <input id="age" type="number" min="12" max="55" required></label>
+      <label>Patient / hospital ID <input id="pid"></label>
+      <label>Phone number <input id="phone" type="tel"></label>
+      <label>First day of your last period
+        <input id="lmp" type="date" required></label>
+      <label>Known conditions (e.g. diabetes, high blood pressure) <input id="cond"></label>
+      <p id="formError" class="error" role="alert"></p>
+      <button type="submit" class="primary">Save and continue</button>
+    </form>
+  </section>
+
+  <!-- 3. Dashboard -->
+  <section id="dashboard" class="screen">
+    <h2 id="hello"></h2>
+    <div class="week">
+      <div><span id="weekNum">0</span><small>weeks</small></div>
+      <ul>
+        <li id="tri"></li>
+        <li id="due"></li>
+        <li id="left"></li>
+        <li id="size"></li>
+      </ul>
+    </div>
+    <div class="tabs">
+      <button data-tab="plan" class="on">Today's plan</button>
+      <button data-tab="fun">Relax &amp; fun</button>
+      <button data-tab="after">After baby</button>
+      <button data-tab="remind">Reminders</button>
+      <button data-tab="ask">Ask</button>
+      <button data-tab="warn">Warning signs</button>
+    </div>
+
+    <div id="plan" class="tab on">
+      <p id="weekInfo"></p>
+      <h3>Daily checklist</h3>
+      <ul id="checklist" class="checks"></ul>
+    </div>
+
+    <div id="fun" class="tab">
+      <div class="card">
+        <h3>Today's affirmation</h3>
+        <p id="affirm" class="big"></p>
+        <button id="affirmBtn" class="soft">Another one</button>
+      </div>
+
+      <div class="card">
+        <h3>Breathe with me</h3>
+        <div id="breathCircle" class="breath">Ready</div>
+        <button id="breathBtn" class="soft">Start</button>
+      </div>
+
+      <div class="card">
+        <h3>Baby kick counter</h3>
+        <p>Today: <strong id="kickNum">0</strong> kicks</p>
+        <button id="kickBtn" class="primary">Baby kicked 👣</button>
+        <button id="kickReset" class="soft">Reset</button>
+      </div>
+
+      <div class="card">
+        <h3>Baby name ideas</h3>
+        <p id="nameOut" class="big">Tap to get an idea</p>
+        <button id="nameBtn" class="soft">Suggest a name</button>
+        <button id="nameSave" class="soft">♥ Save</button>
+        <ul id="nameList" class="list"></ul>
+      </div>
+
+      <div class="card">
+        <h3>Match the pairs</h3>
+        <p>Moves: <strong id="moves">0</strong> <span id="winMsg"></span></p>
+        <div id="board" class="board"></div>
+        <button id="newGame" class="soft">New game</button>
+      </div>
+    </div>
+
+    <!-- After baby care -->
+    <div id="after" class="tab">
+      <p>Care after your baby is born, for you and for your newborn.</p>
+      <div class="seg">
+        <button data-who="mum" class="on">Mother 🤱</button>
+        <button data-who="baby">Baby 👶</button>
+      </div>
+
+      <div id="mum" class="who on">
+        <div id="mumTopics"></div>
+        <div class="alert">
+          <h3>Call the hospital straight away if you have</h3>
+          <ul id="mumWarn"></ul>
+        </div>
+      </div>
+
+      <div id="baby" class="who">
+        <div class="card">
+          <h3>Baby's day log</h3>
+          <div class="log">
+            <div><strong id="feedN">0</strong><small>Feeds</small>
+              <button class="soft" data-log="feeds" data-d="1">+</button><button class="soft" data-log="feeds" data-d="-1">−</button></div>
+            <div><strong id="wetN">0</strong><small>Wet nappies</small>
+              <button class="soft" data-log="wet" data-d="1">+</button><button class="soft" data-log="wet" data-d="-1">−</button></div>
+            <div><strong id="dirtyN">0</strong><small>Dirty nappies</small>
+              <button class="soft" data-log="dirty" data-d="1">+</button><button class="soft" data-log="dirty" data-d="-1">−</button></div>
+          </div>
+          <p class="note">Resets every day. Show this to your midwife or doctor at check-ups.</p>
+        </div>
+        <div id="babyTopics"></div>
+        <div class="alert">
+          <h3>Take your baby to the hospital straight away if</h3>
+          <ul id="babyWarn"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="remind" class="tab">
+      <form id="remForm" class="row">
+        <input id="remText" placeholder="e.g. Antenatal visit" required>
+        <input id="remTime" type="datetime-local" required>
+        <button class="primary">Add</button>
+      </form>
+      <ul id="remList" class="list"></ul>
+    </div>
+
+    <div id="ask" class="tab">
+      <div id="chat" class="chat" aria-live="polite"></div>
+      <form id="askForm" class="row">
+        <input id="askText" placeholder="Ask about nutrition, exercise, newborn care…" required>
+        <button class="primary">Send</button>
+      </form>
+    </div>
+
+    <div id="warn" class="tab">
+      <p>Contact the hospital <strong>immediately</strong> if you have:</p>
+      <ul class="list">
+        <li>Vaginal bleeding or fluid leaking</li>
+        <li>Severe or constant belly pain</li>
+        <li>Severe headache, blurred vision or sudden swelling of face/hands</li>
+        <li>Fever, or painful burning when passing urine</li>
+        <li>Baby moving much less than usual</li>
+        <li>Fits, fainting or trouble breathing</li>
+      </ul>
+    </div>
+    <a id="callBtn" class="emergency" href="#">Call the hospital</a>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
